@@ -38,33 +38,35 @@ def handle_asset_by_id(id):
 def report():
     subprocess.run(['python3', '-m', 'unittest', 'test_app.py'])
     count = len(items)
-    last_item_id = next_item_id - 1 if items else 1
-    last_name = items[-1]['name'] if items else "Sample_Asset"
+    last_item = items[-1] if items else None
+    last_item_id = last_item['id'] if last_item else 1
+    last_name = last_item['name'] if last_item else "Sample_Asset"
+    current_status = last_item['status'] if last_item else "Pending"
     
     data = [
         {
             "Endpoint": "GET", 
             "Method": "GET", 
-            "Arguments": f"Get all assets from storage. ({count} items found)", 
+            "Arguments": f"Fetch all assets from storage. ({count} items found)", 
             "Outcome": "200 OK - Success"
         },
         {
             "Endpoint": "POST", 
             "Method": "POST", 
             "Arguments": f"Add new asset named '{last_name}'. Payload: {{'name': '{last_name}', 'type': 'Asset'}}", 
-            "Outcome": "201 Created - Item added successfully."
+            "Outcome": "201 Created - Record Saved"
         },
         {
             "Endpoint": "PUT", 
             "Method": "PUT", 
-            "Arguments": f"Update the status for ID: {last_item_id}. Payload: {{'id': {last_item_id}, 'status': 'Approved'}}", 
-            "Outcome": "200 OK - Item updated successfully."
+            "Arguments": f"Update status for ID: {last_item_id}. Payload: {{'id': {last_item_id}, 'status': '{current_status}'}}", 
+            "Outcome": f"200 OK - Status is {current_status}"
         },
         {
             "Endpoint": "DELETE", 
             "Method": "DELETE", 
-            "Arguments": f"Delete the asset with ID: {last_item_id}. Payload: {{'id': {last_item_id}}}", 
-            "Outcome": "200 OK - Item removed successfully."
+            "Arguments": f"Delete asset with ID: {last_item_id}. Payload: {{'id': {last_item_id}}}", 
+            "Outcome": "200 OK - Removed"
         }
     ]
     return jsonify({
