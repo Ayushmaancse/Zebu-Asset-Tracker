@@ -1,4 +1,4 @@
-# Zebu Asset Tracker
+# Asset Tracker
 
 ### 1. What is this?
 A simple, professional tool for tracking animation assets (like shots and characters). It uses a **Next.js** frontend to manage the data and a **Flask (Python)** backend to store and verify information. It's built to be fast, stable, and easy to understand for technical interviews.
